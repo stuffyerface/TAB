@@ -1,5 +1,6 @@
 package me.neznamy.tab.platforms.velocity;
 
+import com.velocitypowered.api.proxy.player.TabList;
 import com.velocitypowered.api.proxy.player.TabListEntry;
 import com.velocitypowered.api.util.GameProfile;
 import lombok.NonNull;
@@ -40,7 +41,11 @@ public class VelocityTabList extends TrackedTabList<VelocityTabPlayer> {
 
     @Override
     public void updateLatency(@NonNull UUID entry, int latency) {
-        player.getPlayer().getTabList().getEntry(entry).ifPresent(e -> e.setLatency(latency));
+        if (latency < 0) latency = 0;
+        TabList tabList = player.getPlayer().getTabList();
+        if (tabList.getEntry(entry).isPresent()){
+            tabList.getEntry(entry).get().setLatency(latency);
+        }
     }
 
     @Override
