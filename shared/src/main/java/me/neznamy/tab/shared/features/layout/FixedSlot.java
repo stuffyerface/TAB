@@ -100,6 +100,8 @@ public class FixedSlot extends RefreshableFeature {
         } else {
             skin = manager.getConfiguration().getDefaultSkin(def.getSlot());
         }
+        int ping = def.getPing() == null ? manager.getConfiguration().getEmptySlotPing() : def.getPing();
+        if(ping < 0) ping = 0;
         FixedSlot f = new FixedSlot(
                 manager,
                 def.getSlot(),
@@ -107,7 +109,7 @@ public class FixedSlot extends RefreshableFeature {
                 manager.getUUID(def.getSlot()),
                 def.getText(),
                 skin,
-                def.getPing() == null ? manager.getConfiguration().getEmptySlotPing() : def.getPing()
+                ping
         );
         if (!def.getText().isEmpty()) TAB.getInstance().getFeatureManager().registerFeature(TabConstants.Feature.layoutSlot(pattern.getName(), def.getSlot()), f);
         return f;
